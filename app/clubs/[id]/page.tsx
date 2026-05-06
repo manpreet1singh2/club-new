@@ -40,37 +40,20 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import { clubs } from "@/lib/mock-data"
 
 export default function ClubDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const [id, setId] = useState<string | null>(null)
+  const { id } = use(params)
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [isLiked, setIsLiked] = useState(false)
   const [activeImage, setActiveImage] = useState(0)
 
-  useEffect(() => {
-    params.then(p => setId(p.id))
-  }, [params])
+  const foundClub = clubs.find(c => c.id === id) || clubs[0]
 
-  if (!id) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <Zap className="h-10 w-10 animate-pulse text-primary" />
-    </div>
-  )
-
-  // In a real app, we would fetch the club data based on the ID
+  // Mock additional data not in the main club type yet
   const club = {
-    id: id,
-    name: "Skyline Lounge",
-    rating: 4.8,
-    location: "123 Main St, Downtown, New York",
-    description:
-      "Experience the ultimate nightlife at Skyline Lounge, featuring panoramic city views, world-class DJs, premium bottle service, and an unforgettable atmosphere. Our rooftop venue offers the perfect blend of sophistication and excitement.",
-    images: [
-      "/placeholder.svg?height=600&width=1200",
-      "/placeholder.svg?height=600&width=1200",
-      "/placeholder.svg?height=600&width=1200",
-    ],
-    hours: {
+    ...foundClub,
+    hours: foundClub.hours || {
       monday: "Closed",
       tuesday: "8:00 PM - 2:00 AM",
       wednesday: "8:00 PM - 2:00 AM",
@@ -79,7 +62,7 @@ export default function ClubDetailPage({ params }: { params: Promise<{ id: strin
       saturday: "8:00 PM - 4:00 AM",
       sunday: "8:00 PM - 1:00 AM",
     },
-    features: ["Rooftop Terrace", "VIP Tables", "Premium Bar", "Dance Floor", "Live DJs", "Private Events"],
+    features: foundClub.features || ["Rooftop Terrace", "VIP Tables", "Premium Bar", "Dance Floor", "Live DJs", "Private Events"],
     events: [
       {
         id: "e1",

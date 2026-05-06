@@ -2,7 +2,20 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { CalendarDays, ChevronDown, Filter, MapPin, Search, Star } from "lucide-react"
+import { motion } from "framer-motion"
+import {
+  CalendarDays,
+  ChevronDown,
+  Filter,
+  MapPin,
+  Search,
+  Star,
+  Ticket,
+  ArrowRight,
+  Zap,
+  LayoutGrid,
+  List
+} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,288 +24,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
-
-export default function ClubsPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [priceRange, setPriceRange] = useState([0])
-  const [filtersOpen, setFiltersOpen] = useState(false)
-
-  return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <CalendarDays className="h-6 w-6 text-primary" />
-            <span>ClubSpot</span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/clubs" className="text-sm font-medium hover:underline underline-offset-4">
-              Clubs
-            </Link>
-            <Link href="/events" className="text-sm font-medium hover:underline underline-offset-4">
-              Events
-            </Link>
-            <Link href="/about" className="text-sm font-medium hover:underline underline-offset-4">
-              About
-            </Link>
-            <Link href="/contact" className="text-sm font-medium hover:underline underline-offset-4">
-              Contact
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="outline" size="sm">
-                Log in
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button size="sm">Sign up</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1">
-        <div className="container py-8">
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Filters - Desktop */}
-            <div className="hidden md:block w-64 space-y-6">
-              <div>
-                <h3 className="font-medium mb-3">Location</h3>
-                <Input placeholder="City, neighborhood, or address" />
-              </div>
-              <div>
-                <h3 className="font-medium mb-3">Category</h3>
-                <div className="space-y-2">
-                  {["Nightclub", "Lounge", "Bar", "Rooftop", "Live Music"].map((category) => (
-                    <div key={category} className="flex items-center space-x-2">
-                      <Checkbox id={`category-${category}`} />
-                      <label
-                        htmlFor={`category-${category}`}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        {category}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="font-medium mb-3">Price Range</h3>
-                <Slider defaultValue={[50]} max={100} step={1} value={priceRange} onValueChange={setPriceRange} />
-                <div className="flex justify-between mt-2">
-                  <span className="text-sm">$</span>
-                  <span className="text-sm">$$$</span>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-medium mb-3">Rating</h3>
-                <div className="space-y-2">
-                  {[5, 4, 3, 2, 1].map((rating) => (
-                    <div key={rating} className="flex items-center space-x-2">
-                      <Checkbox id={`rating-${rating}`} />
-                      <label
-                        htmlFor={`rating-${rating}`}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center"
-                      >
-                        {Array(rating)
-                          .fill(0)
-                          .map((_, i) => (
-                            <Star key={i} className="h-4 w-4 fill-primary text-primary" />
-                          ))}
-                        {Array(5 - rating)
-                          .fill(0)
-                          .map((_, i) => (
-                            <Star key={i} className="h-4 w-4 text-muted-foreground" />
-                          ))}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="font-medium mb-3">Features</h3>
-                <div className="space-y-2">
-                  {["VIP Tables", "Dance Floor", "Outdoor Seating", "Live DJ", "Private Rooms", "Food Service"].map(
-                    (feature) => (
-                      <div key={feature} className="flex items-center space-x-2">
-                        <Checkbox id={`feature-${feature}`} />
-                        <label
-                          htmlFor={`feature-${feature}`}
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          {feature}
-                        </label>
-                      </div>
-                    ),
-                  )}
-                </div>
-              </div>
-              <Button className="w-full">Apply Filters</Button>
-            </div>
-
-            {/* Main Content */}
-            <div className="flex-1">
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-                  <h1 className="text-3xl font-bold">Clubs</h1>
-                  <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                    <div className="relative flex-1">
-                      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type="search"
-                        placeholder="Search clubs..."
-                        className="pl-8 pr-4"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                      />
-                    </div>
-                    <Select defaultValue="relevance">
-                      <SelectTrigger className="w-full sm:w-[180px]">
-                        <SelectValue placeholder="Sort by" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="relevance">Relevance</SelectItem>
-                        <SelectItem value="rating">Rating</SelectItem>
-                        <SelectItem value="distance">Distance</SelectItem>
-                        <SelectItem value="price-low">Price: Low to High</SelectItem>
-                        <SelectItem value="price-high">Price: High to Low</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Button
-                      variant="outline"
-                      className="md:hidden flex items-center gap-2"
-                      onClick={() => setFiltersOpen(!filtersOpen)}
-                    >
-                      <Filter className="h-4 w-4" />
-                      Filters
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Mobile Filters */}
-                <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen} className="md:hidden">
-                  <CollapsibleTrigger asChild>
-                    <Button variant="outline" className="flex items-center justify-between w-full">
-                      <span>Filters</span>
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="space-y-4 mt-4">
-                    <div>
-                      <h3 className="font-medium mb-2">Location</h3>
-                      <Input placeholder="City, neighborhood, or address" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium mb-2">Category</h3>
-                      <div className="grid grid-cols-2 gap-2">
-                        {["Nightclub", "Lounge", "Bar", "Rooftop", "Live Music"].map((category) => (
-                          <div key={category} className="flex items-center space-x-2">
-                            <Checkbox id={`mobile-category-${category}`} />
-                            <label
-                              htmlFor={`mobile-category-${category}`}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              {category}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="font-medium mb-2">Price Range</h3>
-                      <Slider defaultValue={[50]} max={100} step={1} value={priceRange} onValueChange={setPriceRange} />
-                      <div className="flex justify-between mt-2">
-                        <span className="text-sm">$</span>
-                        <span className="text-sm">$$$</span>
-                      </div>
-                    </div>
-                    <Button className="w-full">Apply Filters</Button>
-                  </CollapsibleContent>
-                </Collapsible>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {allClubs.map((club) => (
-                    <Link href={`/clubs/${club.id}`} key={club.id}>
-                      <Card className="overflow-hidden transition-all hover:shadow-lg h-full">
-                        <img
-                          src={club.image || "/placeholder.svg"}
-                          alt={club.name}
-                          className="aspect-video w-full object-cover"
-                        />
-                        <CardContent className="p-4">
-                          <div className="flex items-center justify-between">
-                            <h3 className="font-semibold">{club.name}</h3>
-                            <div className="flex items-center">
-                              <Star className="h-4 w-4 fill-primary text-primary" />
-                              <span className="ml-1 text-sm">{club.rating}</span>
-                            </div>
-                          </div>
-                          <p className="text-sm text-muted-foreground mt-1">{club.location}</p>
-                          <div className="mt-2 flex items-center text-sm text-muted-foreground">
-                            <MapPin className="mr-1 h-3 w-3" />
-                            {club.distance}
-                          </div>
-                          <div className="mt-2 flex flex-wrap gap-1">
-                            {club.tags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary/10 text-primary hover:bg-primary/20"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))}
-                </div>
-
-                <div className="flex justify-center mt-8">
-                  <Button variant="outline" className="mx-2">
-                    Previous
-                  </Button>
-                  <Button variant="outline" className="mx-2">
-                    1
-                  </Button>
-                  <Button className="mx-2">2</Button>
-                  <Button variant="outline" className="mx-2">
-                    3
-                  </Button>
-                  <Button variant="outline" className="mx-2">
-                    Next
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      <footer className="w-full border-t py-6">
-        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="flex items-center gap-2">
-            <CalendarDays className="h-6 w-6 text-primary" />
-            <span className="font-bold">ClubSpot</span>
-          </div>
-          <p className="text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} ClubSpot. All rights reserved.
-          </p>
-          <div className="flex gap-4">
-            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Terms
-            </Link>
-            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Privacy
-            </Link>
-            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Contact
-            </Link>
-          </div>
-        </div>
-      </footer>
-    </div>
-  )
-}
+import { Badge } from "@/components/ui/badge"
 
 // Sample data
 const allClubs = [
@@ -301,80 +33,211 @@ const allClubs = [
     name: "Skyline Lounge",
     rating: 4.8,
     location: "Downtown, New York",
-    distance: "2.5 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["Rooftop", "VIP Tables", "Cocktails"],
+    distance: "2.5 miles",
+    image: "/placeholder.svg?height=400&width=600",
+    tags: ["Rooftop", "VIP", "Cocktails"],
   },
   {
     id: "2",
     name: "Pulse Nightclub",
     rating: 4.6,
     location: "Miami Beach, Florida",
-    distance: "3.2 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["Dance", "DJ", "Late Night"],
+    distance: "3.2 miles",
+    image: "/placeholder.svg?height=400&width=600",
+    tags: ["Dance", "EDM", "Late Night"],
   },
   {
     id: "3",
     name: "Echo Club",
     rating: 4.7,
-    location: "Los Angeles, California",
-    distance: "1.8 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["Live Music", "Lounge", "Food"],
+    location: "Los Angeles, CA",
+    distance: "1.8 miles",
+    image: "/placeholder.svg?height=400&width=600",
+    tags: ["Live Music", "Lounge"],
   },
   {
     id: "4",
-    name: "Velvet Underground",
-    rating: 4.9,
-    location: "Chicago, Illinois",
-    distance: "4.1 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["Underground", "Techno", "Exclusive"],
-  },
-  {
-    id: "5",
     name: "Mirage",
-    rating: 4.5,
+    rating: 4.9,
     location: "Las Vegas, Nevada",
-    distance: "2.7 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["Pool Party", "Celebrity DJs", "Dayclub"],
-  },
-  {
-    id: "6",
-    name: "Azure",
-    rating: 4.7,
-    location: "San Francisco, California",
-    distance: "3.3 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["Cocktails", "View", "Upscale"],
-  },
-  {
-    id: "7",
-    name: "Elevate",
-    rating: 4.4,
-    location: "Austin, Texas",
-    distance: "2.2 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["Rooftop", "Live Music", "Craft Beer"],
-  },
-  {
-    id: "8",
-    name: "Fusion",
-    rating: 4.3,
-    location: "Seattle, Washington",
-    distance: "1.5 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["Asian-Fusion", "Lounge", "Sake Bar"],
-  },
-  {
-    id: "9",
-    name: "Prism",
-    rating: 4.6,
-    location: "Denver, Colorado",
-    distance: "3.8 miles away",
-    image: "/placeholder.svg?height=200&width=400",
-    tags: ["LGBTQ+", "Dance", "Drag Shows"],
+    distance: "0.5 miles",
+    image: "/placeholder.svg?height=400&width=600",
+    tags: ["Exclusive", "VIP Tables"],
   },
 ]
+
+export default function ClubsPage() {
+  const [searchQuery, setSearchQuery] = useState("")
+  const [priceRange, setPriceRange] = useState([50])
+  const [filtersOpen, setFiltersOpen] = useState(false)
+
+  return (
+    <div className="flex min-h-screen flex-col bg-muted/20">
+      <header className="sticky top-0 z-50 w-full glassmorphism border-b">
+        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+          <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight">
+            <div className="bg-primary p-1.5 rounded-lg">
+              <Ticket className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <span className="text-gradient">ClubSpot</span>
+          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/login">
+              <Button variant="ghost" size="sm">Log in</Button>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1">
+        <div className="container py-12 px-4 md:px-6">
+          <div className="flex flex-col gap-10">
+            <div className="flex flex-col md:flex-row gap-8 md:items-end justify-between">
+               <div className="space-y-2">
+                  <h1 className="text-5xl font-black tracking-tight">Discover Venues</h1>
+                  <p className="text-xl text-muted-foreground font-medium">Explore the best nightclubs and lounges in your city.</p>
+               </div>
+               <div className="flex items-center gap-3">
+                  <div className="relative group">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                    <Input
+                      type="search"
+                      placeholder="Search name, vibes, location..."
+                      className="h-14 pl-12 pr-6 rounded-2xl border-2 w-full md:w-80 bg-background focus:border-primary shadow-xl shadow-black/5"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  <Button variant="outline" className="h-14 w-14 rounded-2xl border-2 p-0 md:hidden" onClick={() => setFiltersOpen(!filtersOpen)}>
+                    <Filter className="h-5 w-5" />
+                  </Button>
+               </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-10">
+              {/* Filters Sidebar */}
+              <aside className="hidden md:block w-72 space-y-10">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-black uppercase tracking-widest text-xs text-primary">Location</h3>
+                    <Badge variant="secondary" className="rounded-md">All Cities</Badge>
+                  </div>
+                  <Input placeholder="Enter neighborhood..." className="h-12 rounded-xl border-2 bg-background" />
+                </div>
+
+                <div className="space-y-6">
+                  <h3 className="font-black uppercase tracking-widest text-xs text-primary">Experience</h3>
+                  <div className="space-y-3">
+                    {["Nightclub", "Lounge", "Rooftop", "Live Music"].map((category) => (
+                      <div key={category} className="flex items-center justify-between group cursor-pointer">
+                        <div className="flex items-center space-x-3">
+                           <Checkbox id={`category-${category}`} className="h-5 w-5 rounded-md border-2" />
+                           <label htmlFor={`category-${category}`} className="text-sm font-bold text-muted-foreground group-hover:text-foreground transition-colors cursor-pointer">{category}</label>
+                        </div>
+                        <span className="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-md">24</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-black uppercase tracking-widest text-xs text-primary">Price Range</h3>
+                    <span className="text-sm font-black text-primary">${priceRange[0]}</span>
+                  </div>
+                  <Slider defaultValue={[50]} max={200} step={5} value={priceRange} onValueChange={setPriceRange} className="py-4" />
+                </div>
+
+                <Button className="w-full h-14 rounded-2xl font-bold shadow-xl shadow-primary/20">Apply Filters</Button>
+              </aside>
+
+              {/* Grid Content */}
+              <div className="flex-1 space-y-8">
+                <div className="flex items-center justify-between bg-background p-2 rounded-2xl border shadow-sm">
+                   <div className="flex items-center gap-1">
+                      <Button variant="ghost" size="sm" className="rounded-xl bg-muted h-9 px-4 font-bold text-xs"><LayoutGrid className="w-4 h-4 mr-2" />Grid</Button>
+                      <Button variant="ghost" size="sm" className="rounded-xl h-9 px-4 font-bold text-xs text-muted-foreground"><List className="w-4 h-4 mr-2" />List</Button>
+                   </div>
+                   <div className="flex items-center gap-3">
+                      <span className="text-xs font-bold text-muted-foreground">Sort by:</span>
+                      <Select defaultValue="relevance">
+                        <SelectTrigger className="h-9 border-none bg-transparent font-black text-xs focus:ring-0 w-32 uppercase tracking-widest">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl">
+                          <SelectItem value="relevance">Relevance</SelectItem>
+                          <SelectItem value="rating">Top Rated</SelectItem>
+                          <SelectItem value="price-low">Budget</SelectItem>
+                          <SelectItem value="price-high">Premium</SelectItem>
+                        </SelectContent>
+                      </Select>
+                   </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {allClubs.map((club, index) => (
+                    <motion.div
+                      key={club.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <Link href={`/clubs/${club.id}`}>
+                        <Card className="group overflow-hidden rounded-[2.5rem] border-none bg-background shadow-xl hover:shadow-2xl transition-all duration-500 h-full relative">
+                          <div className="aspect-[4/3] w-full overflow-hidden relative">
+                            <img
+                              src={club.image || "/placeholder.svg"}
+                              alt={club.name}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="absolute top-5 right-5 bg-background/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-xl">
+                              <Star className="h-3.5 w-3.5 fill-yellow-500 text-yellow-500" />
+                              {club.rating}
+                            </div>
+                            <div className="absolute bottom-5 left-5 right-5 translate-y-10 group-hover:translate-y-0 transition-transform duration-500">
+                               <Button className="w-full rounded-xl font-bold bg-white text-black hover:bg-white/90 shadow-xl shadow-black/20">Quick View</Button>
+                            </div>
+                          </div>
+                          <CardContent className="p-8 space-y-4">
+                            <div className="space-y-1.5">
+                              <h3 className="font-black text-2xl tracking-tight group-hover:text-primary transition-colors">{club.name}</h3>
+                              <p className="text-sm text-muted-foreground font-medium flex items-center">
+                                <MapPin className="mr-1.5 h-4 w-4 text-primary" />
+                                {club.location}
+                              </p>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                {club.tags.map(tag => (
+                                    <Badge key={tag} variant="secondary" className="bg-muted/50 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border-none">{tag}</Badge>
+                                ))}
+                            </div>
+                            <div className="flex items-center justify-between pt-4 border-t border-muted/50">
+                              <div className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                                {club.distance}
+                              </div>
+                              <Zap className="h-5 w-5 text-primary fill-primary/20" />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="flex justify-center items-center gap-2 pt-10 pb-20">
+                  <Button variant="outline" className="h-12 w-12 rounded-xl border-2 p-0"><ChevronDown className="rotate-90 w-4 h-4" /></Button>
+                  <Button className="h-12 w-12 rounded-xl font-black">1</Button>
+                  <Button variant="ghost" className="h-12 w-12 rounded-xl font-bold text-muted-foreground">2</Button>
+                  <Button variant="ghost" className="h-12 w-12 rounded-xl font-bold text-muted-foreground">3</Button>
+                  <Button variant="outline" className="h-12 w-12 rounded-xl border-2 p-0"><ChevronDown className="-rotate-90 w-4 h-4" /></Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
+

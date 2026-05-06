@@ -1,3 +1,5 @@
+"use client"
+
 import { Calendar, CreditCard, DollarSign, MessageSquare, Star, Ticket } from "lucide-react"
 
 import { Button } from "@/components/ui/button"

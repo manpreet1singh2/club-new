@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { CalendarDays, MapPin, Search, Star, Ticket, TrendingUp } from "lucide-react"
 

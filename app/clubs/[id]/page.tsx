@@ -24,13 +24,23 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 
-export default function ClubDetailPage({ params }: { params: { id: string } }) {
+import { useEffect } from "react"
+
+export default function ClubDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const [id, setId] = useState<string | null>(null)
+
+  useEffect(() => {
+    params.then(p => setId(p.id))
+  }, [params])
+
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [isLiked, setIsLiked] = useState(false)
 
+  if (!id) return null
+
   // In a real app, we would fetch the club data based on the ID
   const club = {
-    id: params.id,
+    id: id,
     name: "Skyline Lounge",
     rating: 4.8,
     location: "123 Main St, Downtown, New York",
@@ -191,79 +201,9 @@ export default function ClubDetailPage({ params }: { params: { id: string } }) {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button>Book a Table</Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                          <DialogTitle>Book a Table</DialogTitle>
-                          <DialogDescription>
-                            Reserve your table at {club.name}. Fill out the details below to complete your booking.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                          <div className="grid gap-2">
-                            <Label htmlFor="date">Date</Label>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button variant="outline" className="w-full justify-start text-left font-normal">
-                                  <CalendarDays className="mr-2 h-4 w-4" />
-                                  {date ? date.toDateString() : "Select a date"}
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0">
-                                <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-                              </PopoverContent>
-                            </Popover>
-                          </div>
-                          <div className="grid gap-2">
-                            <Label htmlFor="time">Time</Label>
-                            <Select>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a time" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="8:00">8:00 PM</SelectItem>
-                                <SelectItem value="8:30">8:30 PM</SelectItem>
-                                <SelectItem value="9:00">9:00 PM</SelectItem>
-                                <SelectItem value="9:30">9:30 PM</SelectItem>
-                                <SelectItem value="10:00">10:00 PM</SelectItem>
-                                <SelectItem value="10:30">10:30 PM</SelectItem>
-                                <SelectItem value="11:00">11:00 PM</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="grid gap-2">
-                            <Label htmlFor="guests">Number of Guests</Label>
-                            <Select>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select number of guests" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="1">1 person</SelectItem>
-                                <SelectItem value="2">2 people</SelectItem>
-                                <SelectItem value="3">3 people</SelectItem>
-                                <SelectItem value="4">4 people</SelectItem>
-                                <SelectItem value="5">5 people</SelectItem>
-                                <SelectItem value="6">6 people</SelectItem>
-                                <SelectItem value="7">7 people</SelectItem>
-                                <SelectItem value="8">8 people</SelectItem>
-                                <SelectItem value="9">9 people</SelectItem>
-                                <SelectItem value="10">10+ people</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="grid gap-2">
-                            <Label htmlFor="special-requests">Special Requests</Label>
-                            <Textarea id="special-requests" placeholder="Any special requests or preferences?" />
-                          </div>
-                        </div>
-                        <DialogFooter>
-                          <Button type="submit">Confirm Booking</Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
+                    <Link href={`/booking/${club.id}`}>
+                      <Button>Book a Table</Button>
+                    </Link>
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button variant="outline">Plan an Event</Button>
@@ -511,7 +451,9 @@ export default function ClubDetailPage({ params }: { params: { id: string } }) {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full">Check Availability</Button>
+                  <Link href={`/booking/${club.id}`} className="w-full">
+                    <Button className="w-full">Book Now</Button>
+                  </Link>
                 </CardFooter>
               </Card>
 

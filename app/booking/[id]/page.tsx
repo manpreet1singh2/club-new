@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import {
@@ -32,7 +32,7 @@ export default function BookingPage({ params }: { params: Promise<{ id: string }
   const router = useRouter()
   const [clubId, setClubId] = useState<string | null>(null)
 
-  useState(() => {
+  useEffect(() => {
     params.then(p => setClubId(p.id))
   })
 

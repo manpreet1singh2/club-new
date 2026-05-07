@@ -47,9 +47,9 @@ export default function ClubDetailPage({ params }: { params: Promise<{ id: strin
     description:
       "Experience the ultimate nightlife at Skyline Lounge, featuring panoramic city views, world-class DJs, premium bottle service, and an unforgettable atmosphere. Our rooftop venue offers the perfect blend of sophistication and excitement.",
     images: [
-      "/placeholder.svg?height=400&width=800",
-      "/placeholder.svg?height=400&width=800",
-      "/placeholder.svg?height=400&width=800",
+      "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=800&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=800&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=800&h=400&fit=crop",
     ],
     hours: {
       monday: "Closed",
@@ -68,7 +68,7 @@ export default function ClubDetailPage({ params }: { params: Promise<{ id: strin
         date: "May 17, 2024",
         time: "10:00 PM - 4:00 AM",
         description: "Join us for a night of house music with DJ Max Power.",
-        image: "/placeholder.svg?height=200&width=400",
+        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop",
       },
       {
         id: "e2",
@@ -76,7 +76,7 @@ export default function ClubDetailPage({ params }: { params: Promise<{ id: strin
         date: "May 18, 2024",
         time: "6:00 PM - 10:00 PM",
         description: "Enjoy sunset views with chill beats and signature cocktails.",
-        image: "/placeholder.svg?height=200&width=400",
+        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop",
       },
       {
         id: "e3",
@@ -84,7 +84,7 @@ export default function ClubDetailPage({ params }: { params: Promise<{ id: strin
         date: "May 21, 2024",
         time: "9:00 PM - 2:00 AM",
         description: "Special discounts for hospitality workers with valid ID.",
-        image: "/placeholder.svg?height=200&width=400",
+        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop",
       },
     ],
     reviews: [

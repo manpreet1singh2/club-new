@@ -1,22 +1,12 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Ticket } from "lucide-react"
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center text-center px-4 space-y-6">
-      <Link href="/" className="flex items-center gap-2 font-bold text-2xl">
-        <Ticket className="h-7 w-7 text-primary" /><span>ClubSpot</span>
-      </Link>
-      <div className="space-y-2">
-        <h1 className="text-8xl font-black text-primary">404</h1>
-        <h2 className="text-2xl font-bold">Page not found</h2>
-        <p className="text-muted-foreground max-w-sm mx-auto">The page you're looking for doesn't exist or has been moved.</p>
-      </div>
-      <div className="flex gap-3">
-        <Link href="/"><Button>Go Home</Button></Link>
-        <Link href="/clubs"><Button variant="outline">Browse Clubs</Button></Link>
-      </div>
+    <div className="mx-auto max-w-3xl px-5 py-24 text-center">
+      <p className="text-sm uppercase tracking-[0.3em] text-velvet-200">404</p>
+      <h1 className="mt-4 text-4xl font-semibold text-white">Page not found</h1>
+      <p className="mt-4 text-slate-300">The requested page does not exist in the Nightclub OS experience.</p>
+      <Link href="/" className="btn-primary mt-8 inline-flex">Back home</Link>
     </div>
-  )
+  );
 }

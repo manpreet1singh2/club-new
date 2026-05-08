@@ -30,6 +30,7 @@ export type Event = {
 };
 
 export type BookingStatus = 'pending' | 'confirmed' | 'waitlist' | 'cancelled';
+export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded';
 
 export type Booking = {
   id: string;
@@ -44,6 +45,18 @@ export type Booking = {
   status: BookingStatus;
   source: 'web' | 'concierge' | 'vip';
   createdAt: string;
+  bookingId?: string;
+  userId?: string;
+  clubId?: string;
+  packageId?: string;
+  date?: string;
+  time?: string;
+  numPeople?: number;
+  transportType?: TransportType;
+  pickupLocation?: string;
+  totalAmount?: number;
+  paidAmount?: number;
+  paymentStatus?: PaymentStatus;
 };
 
 export type Inquiry = {

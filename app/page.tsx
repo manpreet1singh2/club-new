@@ -22,26 +22,29 @@ export default async function HomePage() {
         <div className="space-y-8">
           <div className="flex flex-wrap gap-3">
             <span className="chip border-velvet-400/30 bg-velvet-500/10 text-velvet-200">1M user-ready architecture</span>
-            <span className="chip">Realtime booking flow</span>
-            <span className="chip">Admin dashboard</span>
+            <span className="chip">15% advance payments</span>
+            <span className="chip">WhatsApp automation</span>
+            <span className="chip">Transport scheduling</span>
+            <span className="chip">Admin dashboards</span>
           </div>
           <div className="space-y-5">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-velvet-200">Nightclub booking platform</p>
             <h1 className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-tight text-white md:text-7xl">
-              Run table bookings, guest lists, and premium nightlife operations in one place.
+              Run table bookings, guest lists, deposits, and nightlife operations in one place.
             </h1>
             <p className="max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
-              Discover venues, manage event capacity, capture booking requests, and monitor live performance from a production-style control plane built for scale.
+              Discover venues, manage event capacity, capture advance payments, trigger automated WhatsApp updates, and coordinate transport from a production-style control plane built for scale.
             </p>
           </div>
           <div className="flex flex-wrap gap-4">
             <Link href="#book" className="btn-primary">Reserve now</Link>
             <Link href="/dashboard" className="btn-secondary">Open dashboard</Link>
+            <Link href="/transport" className="btn-secondary">Schedule rides</Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
               'Validated APIs with graceful waitlist handling',
-              'Pagination-ready booking and venue views',
+              'Advance payment and transport coordination',
               'Optional Postgres support for persistence'
             ].map((item) => (
               <div key={item} className="panel-soft p-4 text-sm text-slate-300">
@@ -83,7 +86,7 @@ export default async function HomePage() {
         <MetricsGrid metrics={metrics} />
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]" id="book">
+      <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="space-y-5">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Featured events</p>
           <h2 className="section-title">Peak-night inventory</h2>
@@ -93,7 +96,7 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
-        <div className="space-y-5">
+        <div className="space-y-5" id="book">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Quick booking</p>
           <h2 className="section-title">Reserve tables without friction</h2>
           <BookingForm venues={venues} events={events} />
@@ -137,11 +140,12 @@ export default async function HomePage() {
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Platform guarantees</p>
           <h2 className="section-title mt-2">Operational quality checklist</h2>
           <ul className="mt-6 space-y-4 text-sm leading-7 text-slate-300">
-            <li>• All booking, venue, event, and inquiry actions are routed through typed API endpoints.</li>
+            <li>• All booking, venue, event, payment, transport, and inquiry actions are routed through typed API endpoints.</li>
             <li>• Waitlist logic automatically applies when an event reaches capacity.</li>
             <li>• Booking lists, venue lists, and event views are filterable and pagination-ready.</li>
+            <li>• 15% advance capture is visible in the booking flow and admin views.</li>
+            <li>• WhatsApp triggers cover booking confirmation, advance payment, and transport assignment.</li>
             <li>• Postgres is supported through DATABASE_URL without changing the UI.</li>
-            <li>• Forms include inline success and error states for reliable user feedback.</li>
           </ul>
         </div>
       </section>

@@ -1,4 +1,4 @@
-import type { Booking, Event, Inquiry, Venue } from './types';
+import type { Booking, Event, Inquiry, LegacyClub, LegacyPackage, Venue } from './types';
 
 export const venues: Venue[] = [
   {
@@ -206,3 +206,19 @@ export const inquiries: Inquiry[] = [
     createdAt: '2026-05-08T12:00:00+05:30'
   }
 ];
+
+export const clubs: LegacyClub[] = venues.map((venue) => ({
+  id: venue.id,
+  name: venue.name,
+  location: `${venue.neighborhood}, ${venue.city}`
+}));
+
+export const packages: LegacyPackage[] = events.map((event, index) => ({
+  id: `pkg-${index + 1}`,
+  clubId: event.venueId,
+  name: `${event.title} Package`,
+  description: event.description,
+  price: event.ticketPrice,
+  includesDrinks: index % 2 === 0,
+  includesTransport: index % 3 === 0
+}));

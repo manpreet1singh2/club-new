@@ -14,6 +14,8 @@ export function BookingTable({ bookings, venues, events }: { bookings: Booking[]
               <th className="px-5 py-4 font-medium">Venue</th>
               <th className="px-5 py-4 font-medium">Event</th>
               <th className="px-5 py-4 font-medium">Party</th>
+              <th className="px-5 py-4 font-medium">Advance</th>
+              <th className="px-5 py-4 font-medium">Transport</th>
               <th className="px-5 py-4 font-medium">Status</th>
               <th className="px-5 py-4 font-medium">Created</th>
             </tr>
@@ -28,6 +30,14 @@ export function BookingTable({ bookings, venues, events }: { bookings: Booking[]
                 <td className="px-5 py-4">{venueMap.get(booking.venueId)?.name ?? booking.venueId}</td>
                 <td className="px-5 py-4">{eventMap.get(booking.eventId)?.title ?? booking.eventId}</td>
                 <td className="px-5 py-4">{booking.partySize} · {booking.arrivalTime}</td>
+                <td className="px-5 py-4">
+                  <div className="text-white">₹{(booking.advanceAmount ?? 0).toLocaleString('en-IN')}</div>
+                  <div className="text-slate-400">{booking.paymentStatus ?? 'pending'}</div>
+                </td>
+                <td className="px-5 py-4">
+                  <div className="text-white">{booking.transportType ?? 'none'}</div>
+                  <div className="text-slate-400">{booking.transportStatus ?? 'unscheduled'}</div>
+                </td>
                 <td className="px-5 py-4"><span className="chip">{booking.status}</span></td>
                 <td className="px-5 py-4">{new Date(booking.createdAt).toLocaleString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' })}</td>
               </tr>

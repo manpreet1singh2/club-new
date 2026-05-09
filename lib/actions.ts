@@ -4,16 +4,25 @@ import type { Booking, BookingStatus, PaymentStatus, TransportType } from "./typ
  * Mock function to simulate creating a booking in the database
  */
 export async function createBooking(data: {
-  userId: string
-  clubId: string
-  packageId: string
-  date: string
-  time: string
-  numPeople: number
-  transportType: TransportType
+  venueId: string
+  eventId: string
+  guestName: string
+  email: string
+  phone: string
+  partySize: number
+  arrivalTime: string
+  notes: string
+  source: Booking['source']
+  userId?: string
+  clubId?: string
+  packageId?: string
+  date?: string
+  time?: string
+  numPeople?: number
+  transportType?: TransportType
   pickupLocation?: string
-  totalAmount: number
-  paidAmount: number
+  totalAmount?: number
+  paidAmount?: number
 }): Promise<Booking> {
   const id = Math.random().toString(36).substring(2, 11)
   const bookingId = Math.random().toString(36).substring(2, 10).toUpperCase()

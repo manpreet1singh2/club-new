@@ -95,3 +95,13 @@ export type LegacyPackage = {
   includesDrinks: boolean;
   includesTransport: boolean;
 };
+
+export type Club = LegacyClub;
+
+export type Driver = {
+  id: string;
+  name: string;
+  phone: string;
+  vehicleType: 'Cab' | 'Bike' | 'Van';
+  status: 'Available' | 'On Trip' | 'Offline';
+};

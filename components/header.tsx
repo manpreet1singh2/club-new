@@ -4,7 +4,9 @@ const navItems = [
   { href: '/venues', label: 'Venues' },
   { href: '/events', label: 'Events' },
   { href: '/bookings', label: 'Bookings' },
-  { href: '/dashboard', label: 'Dashboard' }
+  { href: '/billing', label: 'Billing' },
+  { href: '/transport', label: 'Transport' },
+  { href: '/admin', label: 'Admin' }
 ];
 
 export function Header() {
@@ -15,7 +17,7 @@ export function Header() {
           <span className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-velvet-500 to-night-500 shadow-glow">N</span>
           Nightclub OS
         </Link>
-        <nav className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
+        <nav className="hidden items-center gap-5 text-sm text-slate-300 lg:flex">
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} className="transition hover:text-white">
               {item.label}

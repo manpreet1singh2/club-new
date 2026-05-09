@@ -28,6 +28,11 @@ export default async function DashboardPage() {
             <li>• Deployment model: server-rendered pages plus route handlers</li>
             <li>• Persistence: optional Postgres via DATABASE_URL, in-memory fallback for demo mode</li>
           </ul>
+          <div className="mt-6 rounded-3xl border border-white/10 bg-night-900/70 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Reputation tracking</p>
+            <p className="mt-3 text-sm leading-7 text-slate-300">Guest review triage and response workflows now live in the dashboard. Open the new reviews section to see the latest sentiment and follow-up queue.</p>
+            <a href="/dashboard/reviews" className="mt-4 inline-flex items-center text-sm font-semibold text-white underline decoration-velvet-200/60 underline-offset-4 transition hover:text-velvet-100">Open reviews section</a>
+          </div>
         </div>
         <BookingTable bookings={bookingPage.items} venues={venues} events={events} />
       </div>

@@ -25,46 +25,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
-
-// Sample data
-const allClubs = [
-  {
-    id: "1",
-    name: "Skyline Lounge",
-    rating: 4.8,
-    location: "Downtown, New York",
-    distance: "2.5 miles",
-    image: "/placeholder.svg?height=400&width=600",
-    tags: ["Rooftop", "VIP", "Cocktails"],
-  },
-  {
-    id: "2",
-    name: "Pulse Nightclub",
-    rating: 4.6,
-    location: "Miami Beach, Florida",
-    distance: "3.2 miles",
-    image: "/placeholder.svg?height=400&width=600",
-    tags: ["Dance", "EDM", "Late Night"],
-  },
-  {
-    id: "3",
-    name: "Echo Club",
-    rating: 4.7,
-    location: "Los Angeles, CA",
-    distance: "1.8 miles",
-    image: "/placeholder.svg?height=400&width=600",
-    tags: ["Live Music", "Lounge"],
-  },
-  {
-    id: "4",
-    name: "Mirage",
-    rating: 4.9,
-    location: "Las Vegas, Nevada",
-    distance: "0.5 miles",
-    image: "/placeholder.svg?height=400&width=600",
-    tags: ["Exclusive", "VIP Tables"],
-  },
-]
+import { clubs } from "@/lib/mock-data"
 
 export default function ClubsPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -175,7 +136,7 @@ export default function ClubsPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {allClubs.map((club, index) => (
+                  {clubs.map((club, index) => (
                     <motion.div
                       key={club.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -208,13 +169,13 @@ export default function ClubsPage() {
                               </p>
                             </div>
                             <div className="flex flex-wrap gap-2">
-                                {club.tags.map(tag => (
+                                {(club.features || ["VIP", "Lounge"]).slice(0, 3).map(tag => (
                                     <Badge key={tag} variant="secondary" className="bg-muted/50 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border-none">{tag}</Badge>
                                 ))}
                             </div>
                             <div className="flex items-center justify-between pt-4 border-t border-muted/50">
                               <div className="text-xs font-black uppercase tracking-widest text-muted-foreground">
-                                {club.distance}
+                                2.5 miles
                               </div>
                               <Zap className="h-5 w-5 text-primary fill-primary/20" />
                             </div>

@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
+import { clubs } from "@/lib/mock-data"
 
 export default function Home() {
   const containerVariants = {
@@ -61,7 +62,7 @@ export default function Home() {
                 Log in
               </Button>
             </Link>
-            <Link href="/signup">
+            <Link href="/login">
               <Button size="sm" className="shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">
                 Get Started
               </Button>
@@ -141,8 +142,8 @@ export default function Home() {
               </div>
               <TabsContent value="featured" className="mt-0 focus-visible:outline-none">
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                  {featuredClubs.map((club, index) => (
-                    <ClubCard key={club.id} club={club} index={index} />
+                  {clubs.map((club, index) => (
+                    <ClubCard key={club.id} club={{...club, distance: "2.5 miles away"}} index={index} />
                   ))}
                 </div>
               </TabsContent>
@@ -320,30 +321,3 @@ function ClubCard({ club, index }: { club: any, index: number }) {
   )
 }
 
-// Sample data
-const featuredClubs = [
-  {
-    id: "1",
-    name: "Skyline Lounge",
-    rating: 4.8,
-    location: "Downtown, New York",
-    distance: "2.5 miles away",
-    image: "/placeholder.svg?height=400&width=600",
-  },
-  {
-    id: "2",
-    name: "Pulse Nightclub",
-    rating: 4.6,
-    location: "Miami Beach, Florida",
-    distance: "3.2 miles away",
-    image: "/placeholder.svg?height=400&width=600",
-  },
-  {
-    id: "3",
-    name: "Echo Club",
-    rating: 4.7,
-    location: "Los Angeles, California",
-    distance: "1.8 miles away",
-    image: "/placeholder.svg?height=400&width=600",
-  },
-]

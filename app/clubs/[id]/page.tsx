@@ -107,7 +107,7 @@ export default function ClubDetailPage({ params }: { params: Promise<{ id: strin
             <Link href="/login">
               <Button variant="ghost" size="sm">Log in</Button>
             </Link>
-            <Link href="/signup">
+            <Link href="/login">
               <Button size="sm" variant="premium">Sign up</Button>
             </Link>
           </div>

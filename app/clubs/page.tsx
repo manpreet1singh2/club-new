@@ -25,12 +25,31 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
-import { clubs } from "@/lib/mock-data"
+import { clubs, packages } from "@/lib/mock-data"
 
 export default function ClubsPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [priceRange, setPriceRange] = useState([50])
+  const [priceRange, setPriceRange] = useState([200])
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = useState(false)
+
+  const filteredClubs = clubs.filter(club => {
+    const matchesSearch = club.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         club.location.toLowerCase().includes(searchQuery.toLowerCase())
+
+    const matchesPrice = (packages.find(p => p.clubId === club.id)?.price || 0) <= priceRange[0]
+
+    const matchesTags = selectedTags.length === 0 ||
+                       selectedTags.some(tag => club.features?.includes(tag))
+
+    return matchesSearch && matchesPrice && matchesTags
+  })
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags(prev =>
+      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+    )
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/20">
@@ -89,13 +108,17 @@ export default function ClubsPage() {
                 <div className="space-y-6">
                   <h3 className="font-black uppercase tracking-widest text-xs text-primary">Experience</h3>
                   <div className="space-y-3">
-                    {["Nightclub", "Lounge", "Rooftop", "Live Music"].map((category) => (
+                    {["VIP Tables", "Premium Bar", "Dance Floor", "Live DJs", "Rooftop Terrace"].map((category) => (
                       <div key={category} className="flex items-center justify-between group cursor-pointer">
                         <div className="flex items-center space-x-3">
-                           <Checkbox id={`category-${category}`} className="h-5 w-5 rounded-md border-2" />
+                           <Checkbox
+                              id={`category-${category}`}
+                              className="h-5 w-5 rounded-md border-2"
+                              checked={selectedTags.includes(category)}
+                              onCheckedChange={() => toggleTag(category)}
+                           />
                            <label htmlFor={`category-${category}`} className="text-sm font-bold text-muted-foreground group-hover:text-foreground transition-colors cursor-pointer">{category}</label>
                         </div>
-                        <span className="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-md">24</span>
                       </div>
                     ))}
                   </div>
@@ -103,10 +126,10 @@ export default function ClubsPage() {
 
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-black uppercase tracking-widest text-xs text-primary">Price Range</h3>
+                    <h3 className="font-black uppercase tracking-widest text-xs text-primary">Max Price</h3>
                     <span className="text-sm font-black text-primary">${priceRange[0]}</span>
                   </div>
-                  <Slider defaultValue={[50]} max={200} step={5} value={priceRange} onValueChange={setPriceRange} className="py-4" />
+                  <Slider defaultValue={[200]} max={500} step={10} value={priceRange} onValueChange={setPriceRange} className="py-4" />
                 </div>
 
                 <Button className="w-full h-14 rounded-2xl font-bold shadow-xl shadow-primary/20">Apply Filters</Button>
@@ -136,7 +159,7 @@ export default function ClubsPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {clubs.map((club, index) => (
+                  {filteredClubs.length > 0 ? filteredClubs.map((club, index) => (
                     <motion.div
                       key={club.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -183,7 +206,16 @@ export default function ClubsPage() {
                         </Card>
                       </Link>
                     </motion.div>
-                  ))}
+                  )) : (
+                    <div className="col-span-full py-20 text-center space-y-4">
+                       <div className="h-20 w-20 bg-muted rounded-full flex items-center justify-center mx-auto">
+                          <Search className="h-10 w-10 text-muted-foreground" />
+                       </div>
+                       <h3 className="text-xl font-bold">No venues found</h3>
+                       <p className="text-muted-foreground">Try adjusting your filters or search query.</p>
+                       <Button variant="outline" onClick={() => {setSearchQuery(""); setSelectedTags([]); setPriceRange([500])}}>Clear All Filters</Button>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex justify-center items-center gap-2 pt-10 pb-20">

@@ -37,10 +37,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { convertToCSV, downloadCSV } from "@/lib/excel-utils"
 import type { Booking, TransportType, BookingStatus, PaymentStatus } from "@/lib/types"
+import { clubs } from "@/lib/mock-data"
 
 export default function OwnerDashboard() {
   const [searchTerm, setSearchTerm] = useState("")
 
+  // Mocking more bookings for the dashboard
   const bookings: Booking[] = [
     {
       id: "1",
@@ -48,7 +50,7 @@ export default function OwnerDashboard() {
       userId: "John Doe",
       clubId: "1",
       packageId: "Full Combo",
-      date: "2024-05-18",
+      date: "2026-05-18",
       time: "10:00 PM",
       numPeople: 4,
       transportType: "cab" as TransportType,
@@ -64,7 +66,7 @@ export default function OwnerDashboard() {
       userId: "Alice Smith",
       clubId: "1",
       packageId: "Entry Only",
-      date: "2024-05-18",
+      date: "2026-05-18",
       time: "9:30 PM",
       numPeople: 2,
       transportType: "none" as TransportType,
@@ -74,7 +76,28 @@ export default function OwnerDashboard() {
       paidAmount: 7.5,
       createdAt: new Date().toISOString(),
     },
+    {
+      id: "3",
+      bookingId: "BK-9012",
+      userId: "Mike Ross",
+      clubId: "1",
+      packageId: "Entry + Drinks",
+      date: "2026-05-19",
+      time: "11:00 PM",
+      numPeople: 5,
+      transportType: "cab" as TransportType,
+      status: "confirmed" as BookingStatus,
+      paymentStatus: "paid" as PaymentStatus,
+      totalAmount: 150,
+      paidAmount: 22.5,
+      createdAt: new Date().toISOString(),
+    },
   ]
+
+  const filteredBookings = bookings.filter(b =>
+    b.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    b.bookingId.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   const exportToCSV = () => {
     const csvData = convertToCSV(bookings)
@@ -170,7 +193,7 @@ export default function OwnerDashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {bookings.map((booking) => (
+                {filteredBookings.map((booking) => (
                   <TableRow key={booking.id} className="group hover:bg-muted/20 transition-colors">
                     <TableCell className="px-8 py-6 font-bold">
                        <div className="flex items-center gap-3">

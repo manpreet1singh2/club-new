@@ -8,6 +8,7 @@ import {
   Users,
   Truck,
   TrendingUp,
+  Star,
   MoreHorizontal,
   Search,
   Filter,
@@ -24,6 +25,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
+import { clubs } from "@/lib/mock-data"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -132,11 +134,8 @@ export default function AdminDashboard() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {[
-                    { name: "Skyline Lounge", loc: "New York", owner: "John D.", rev: "$12,450", status: "active" },
-                    { name: "Pulse Nightclub", loc: "Miami", owner: "Sarah S.", rev: "$8,920", status: "active" },
-                  ].map((club) => (
-                    <TableRow key={club.name} className="group hover:bg-muted/20 transition-colors">
+                  {clubs.map((club) => (
+                    <TableRow key={club.id} className="group hover:bg-muted/20 transition-colors">
                       <TableCell className="px-8 py-6">
                          <div className="flex items-center gap-4">
                             <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
@@ -144,20 +143,20 @@ export default function AdminDashboard() {
                             </div>
                             <div className="space-y-0.5">
                                <div className="text-base font-black tracking-tight">{club.name}</div>
-                               <div className="text-xs text-muted-foreground font-bold uppercase tracking-widest">{club.loc}</div>
+                               <div className="text-xs text-muted-foreground font-bold uppercase tracking-widest">{club.location}</div>
                             </div>
                          </div>
                       </TableCell>
-                      <TableCell className="py-6 font-bold">{club.owner}</TableCell>
+                      <TableCell className="py-6 font-bold">Manpreet S.</TableCell>
                       <TableCell className="py-6">
                          <div className="flex items-center gap-2">
                             <TrendingUp className="h-4 w-4 text-emerald-500" />
-                            <span className="font-black text-lg">{club.rev}</span>
+                            <span className="font-black text-lg">${(Math.random() * 10000 + 5000).toFixed(0)}</span>
                          </div>
                       </TableCell>
                       <TableCell className="py-6">
                         <Badge variant="success" className="rounded-xl px-4 py-1 font-black text-[10px] uppercase tracking-widest">
-                          {club.status}
+                          active
                         </Badge>
                       </TableCell>
                       <TableCell className="px-8 py-6 text-right">
@@ -184,7 +183,106 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
         </TabsContent>
-        {/* Other Tabs content can be styled similarly */}
+        <TabsContent value="drivers" className="mt-0 focus-visible:outline-none">
+          <Card className="rounded-[2.5rem] border-none shadow-2xl shadow-black/5 overflow-hidden">
+            <CardHeader className="p-8 md:p-10 border-b bg-muted/5">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="space-y-1">
+                        <CardTitle className="text-2xl font-black tracking-tight">Active Drivers</CardTitle>
+                        <CardDescription className="font-medium text-base">Managing 24 transport partners across all cities.</CardDescription>
+                    </div>
+                    <Button className="rounded-xl h-12 font-bold px-6">
+                        <Plus className="mr-2 h-4 w-4" /> Add Driver
+                    </Button>
+                </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader className="bg-muted/30">
+                  <TableRow>
+                    <TableHead className="px-8 py-5 font-black uppercase text-[10px] tracking-widest">Driver</TableHead>
+                    <TableHead className="py-5 font-black uppercase text-[10px] tracking-widest">Vehicle</TableHead>
+                    <TableHead className="py-5 font-black uppercase text-[10px] tracking-widest">Rating</TableHead>
+                    <TableHead className="py-5 font-black uppercase text-[10px] tracking-widest">Status</TableHead>
+                    <TableHead className="px-8 py-5 text-right font-black uppercase text-[10px] tracking-widest">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {[
+                    { name: "James Wilson", type: "Cab", plate: "NY-BK-1234", rating: 4.9, status: "available" },
+                    { name: "Sarah Chen", type: "Bike", plate: "NY-BK-5678", rating: 4.8, status: "on-trip" },
+                  ].map((driver) => (
+                    <TableRow key={driver.name} className="hover:bg-muted/20 transition-colors">
+                      <TableCell className="px-8 py-6">
+                         <div className="flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center font-bold">
+                               {driver.name.charAt(0)}
+                            </div>
+                            <span className="font-bold">{driver.name}</span>
+                         </div>
+                      </TableCell>
+                      <TableCell className="py-6">
+                         <div className="flex flex-col">
+                            <span className="font-bold">{driver.type}</span>
+                            <span className="text-xs text-muted-foreground">{driver.plate}</span>
+                         </div>
+                      </TableCell>
+                      <TableCell className="py-6">
+                         <div className="flex items-center gap-1">
+                            <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
+                            <span className="font-bold">{driver.rating}</span>
+                         </div>
+                      </TableCell>
+                      <TableCell className="py-6">
+                        <Badge variant={driver.status === 'available' ? 'success' : 'warning'} className="rounded-xl px-3 py-0.5 font-black text-[9px] uppercase">
+                          {driver.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="px-8 py-6 text-right">
+                        <Button variant="ghost" size="sm">Edit</Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="analytics" className="mt-0 focus-visible:outline-none">
+           <div className="grid gap-6 md:grid-cols-2">
+              <Card className="rounded-3xl border-none shadow-xl p-8">
+                 <h3 className="text-xl font-bold mb-6">Booking Volume (7 Days)</h3>
+                 <div className="h-64 w-full bg-muted/20 rounded-2xl flex items-end justify-between p-6 gap-2">
+                    {[40, 70, 45, 90, 65, 80, 100].map((h, i) => (
+                        <div key={i} className="flex-1 bg-primary/20 rounded-t-lg relative group transition-all hover:bg-primary">
+                           <div style={{ height: `${h}%` }} className="w-full bg-primary rounded-t-lg" />
+                        </div>
+                    ))}
+                 </div>
+              </Card>
+              <Card className="rounded-3xl border-none shadow-xl p-8">
+                 <h3 className="text-xl font-bold mb-6">Revenue by City</h3>
+                 <div className="space-y-6">
+                    {[
+                      { city: "New York", val: 85, color: "bg-blue-500" },
+                      { city: "Miami", val: 65, color: "bg-purple-500" },
+                      { city: "Las Vegas", val: 95, color: "bg-emerald-500" },
+                      { city: "Los Angeles", val: 55, color: "bg-orange-500" }
+                    ].map(city => (
+                      <div key={city.city} className="space-y-2">
+                         <div className="flex justify-between text-sm font-bold">
+                            <span>{city.city}</span>
+                            <span>{city.val}%</span>
+                         </div>
+                         <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                            <div className={`h-full ${city.color}`} style={{ width: `${city.val}%` }} />
+                         </div>
+                      </div>
+                    ))}
+                 </div>
+              </Card>
+           </div>
+        </TabsContent>
       </Tabs>
     </div>
   )

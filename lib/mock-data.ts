@@ -1,4 +1,4 @@
-import type { Club, Package, Driver, User } from "./types"
+import type { Club, Package, Driver, User, Booking } from "./types"
 
 export const clubs: Club[] = [
   {
@@ -107,3 +107,87 @@ export const currentUser: User = {
   phone: "+1555000111",
   role: "customer",
 }
+
+export const events = [
+  {
+    id: "e1",
+    title: "Neon Nights Festival",
+    clubId: "1",
+    clubName: "Skyline Lounge",
+    date: "Friday, May 15",
+    time: "10:00 PM",
+    image: "/placeholder.svg?height=400&width=600",
+    tag: "Live Music"
+  },
+  {
+    id: "e2",
+    title: "Underground Techno",
+    clubId: "2",
+    clubName: "Pulse Nightclub",
+    date: "Saturday, May 16",
+    time: "11:00 PM",
+    image: "/placeholder.svg?height=400&width=600",
+    tag: "Techno"
+  },
+  {
+    id: "e3",
+    title: "VIP Champagne Gala",
+    clubId: "1",
+    clubName: "Skyline Lounge",
+    date: "Thursday, May 21",
+    time: "9:00 PM",
+    image: "/placeholder.svg?height=400&width=600",
+    tag: "VIP Only"
+  },
+]
+
+export const allBookings: Booking[] = [
+  {
+    id: "1",
+    bookingId: "BK-1234",
+    userId: "John Doe",
+    clubId: "1",
+    packageId: "Full Combo",
+    date: "2026-05-18",
+    time: "10:00 PM",
+    numPeople: 4,
+    transportType: "cab",
+    status: "confirmed",
+    paymentStatus: "paid",
+    totalAmount: 200,
+    paidAmount: 30,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "2",
+    bookingId: "BK-5678",
+    userId: "Alice Smith",
+    clubId: "1",
+    packageId: "Entry Only",
+    date: "2026-05-18",
+    time: "9:30 PM",
+    numPeople: 2,
+    transportType: "none",
+    status: "pending",
+    paymentStatus: "paid",
+    totalAmount: 50,
+    paidAmount: 7.5,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "3",
+    bookingId: "BK-9012",
+    userId: "Mike Ross",
+    clubId: "2",
+    packageId: "Entry + Drinks",
+    date: "2026-05-19",
+    time: "11:00 PM",
+    numPeople: 5,
+    transportType: "cab",
+    status: "confirmed",
+    paymentStatus: "paid",
+    totalAmount: 150,
+    paidAmount: 22.5,
+    createdAt: new Date().toISOString(),
+  },
+]

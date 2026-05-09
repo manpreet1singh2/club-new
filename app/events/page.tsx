@@ -7,38 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { events } from "@/lib/mock-data"
 
 export default function EventsPage() {
-  const events = [
-    {
-      id: "e1",
-      title: "Neon Nights Festival",
-      club: "Skyline Lounge",
-      date: "Friday, May 15",
-      time: "10:00 PM",
-      image: "/placeholder.svg?height=400&width=600",
-      tag: "Live Music"
-    },
-    {
-      id: "e2",
-      title: "Underground Techno",
-      club: "Pulse Nightclub",
-      date: "Saturday, May 16",
-      time: "11:00 PM",
-      image: "/placeholder.svg?height=400&width=600",
-      tag: "Techno"
-    },
-    {
-      id: "e3",
-      title: "VIP Champagne Gala",
-      club: "Echo Club",
-      date: "Thursday, May 21",
-      time: "9:00 PM",
-      image: "/placeholder.svg?height=400&width=600",
-      tag: "VIP Only"
-    },
-  ]
-
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full glassmorphism border-b">
@@ -102,11 +73,11 @@ export default function EventsPage() {
                              <h3 className="text-2xl font-black tracking-tight group-hover:text-primary transition-colors">{event.title}</h3>
                              <div className="flex items-center gap-1.5 text-muted-foreground font-medium text-sm">
                                 <MapPin className="h-3.5 w-3.5" />
-                                {event.club}
+                                {event.clubName}
                              </div>
                           </div>
                           <Button asChild className="w-full rounded-xl group" variant="secondary">
-                             <Link href={`/clubs/${event.id.replace('e', '')}`}>
+                             <Link href={`/clubs/${event.clubId}`}>
                                 Book Now
                                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                              </Link>

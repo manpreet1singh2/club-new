@@ -38,6 +38,7 @@ export type WhatsAppTriggerType = 'booking_confirmed' | 'advance_paid' | 'transp
 
 export type Booking = {
   id: string;
+  bookingId: string;
   venueId: string;
   eventId: string;
   guestName: string;

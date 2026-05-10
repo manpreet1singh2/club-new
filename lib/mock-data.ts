@@ -140,6 +140,7 @@ export const events: Event[] = [
 export const bookings: Booking[] = [
   {
     id: 'bk-1001',
+    bookingId: 'BK-1001',
     venueId: 'venue-orbit',
     eventId: 'event-noir-friday',
     guestName: 'Aarav Mehta',
@@ -154,6 +155,7 @@ export const bookings: Booking[] = [
   },
   {
     id: 'bk-1002',
+    bookingId: 'BK-1002',
     venueId: 'venue-orbit',
     eventId: 'event-noir-friday',
     guestName: 'Tanya Kapoor',
@@ -168,6 +170,7 @@ export const bookings: Booking[] = [
   },
   {
     id: 'bk-1003',
+    bookingId: 'BK-1003',
     venueId: 'venue-luxe',
     eventId: 'event-luxe-ladies-night',
     guestName: 'Rohit Saini',
@@ -182,6 +185,7 @@ export const bookings: Booking[] = [
   },
   {
     id: 'bk-1004',
+    bookingId: 'BK-1004',
     venueId: 'venue-arcade',
     eventId: 'event-sunrise-set',
     guestName: 'Priya Dutta',

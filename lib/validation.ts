@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const bookingSchema = z.object({
+  bookingId: z.string(),
   venueId: z.string().min(1),
   eventId: z.string().min(1),
   guestName: z.string().min(2),

@@ -1,9 +1,11 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import type { Event, Venue } from '@/lib/types';
 
 export function BookingForm({ venues, events }: { venues: Venue[]; events: Event[] }) {
+  const router = useRouter();
   const [status, setStatus] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [selectedVenueId, setSelectedVenueId] = useState(venues[0]?.id ?? '');
@@ -42,8 +44,13 @@ export function BookingForm({ venues, events }: { venues: Venue[]; events: Event
       return;
     }
 
-    setStatus(`Booking ${data.booking?.id ?? ''} created with ${data.booking?.status ?? 'pending'} status.`);
-    event.currentTarget.reset();
+    const bookingId = data.booking?.id;
+    if (!bookingId) {
+      setStatus('Booking succeeded, but no booking ID was returned.');
+      return;
+    }
+
+    router.push(`/booking/confirmation/${bookingId}`);
   }
 
   return (

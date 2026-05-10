@@ -40,7 +40,7 @@ function buildBillingRecord(booking: Booking, event?: Event, venue?: Venue): Bil
   const status = totalDue === 0 ? 'settled' : outstandingAmount === 0 ? 'settled' : paidAmount > 0 ? 'partial' : 'open';
 
   return {
-    bookingId: booking.id,
+    bookingId: booking.bookingId,
     guestName: booking.guestName,
     venueName: venue?.name ?? booking.venueId,
     eventTitle: event?.title ?? booking.eventId,
@@ -64,7 +64,7 @@ const memory = globalForClub.clubStore ?? {
   bookings: [...seedBookings].map((booking) => {
     const event = seedEvents.find((item) => item.id === booking.eventId);
     const advanceAmount = event ? percent15(event.ticketPrice * booking.partySize) : 0;
-    return { ...booking, advanceAmount, paidAmount: booking.status === 'confirmed' ? advanceAmount : 0, paymentStatus: booking.status === 'confirmed' ? 'paid' : 'pending' };
+    return { ...booking, bookingId: booking.bookingId, advanceAmount, paidAmount: booking.status === 'confirmed' ? advanceAmount : 0, paymentStatus: booking.status === 'confirmed' ? 'paid' : 'pending' };
   }),
   inquiries: [...seedInquiries],
   schedules: [] as TransportSchedule[],
@@ -203,7 +203,7 @@ export async function getBookingById(id: string) {
   return bookings.items.find((booking) => booking.id === id) ?? null;
 }
 
-export async function createBooking(input: Omit<Booking, 'id' | 'status' | 'createdAt' | 'advanceAmount' | 'paidAmount' | 'paymentStatus' | 'transportStatus'> & { source?: Booking['source'] }) {
+export async function createBooking(input: Omit<Booking, 'id' | 'bookingId' | 'status' | 'createdAt' | 'advanceAmount' | 'paidAmount' | 'paymentStatus' | 'transportStatus'> & { source?: Booking['source'] }) {
   const event = (await listEvents()).find((item) => item.id === input.eventId);
   const venue = (await listVenues()).find((item) => item.id === input.venueId);
   if (!event || !venue) throw new Error('Venue or event not found');
@@ -212,9 +212,11 @@ export async function createBooking(input: Omit<Booking, 'id' | 'status' | 'crea
   const occupied = matchingBookings.filter((booking) => booking.status === 'confirmed').reduce((sum, booking) => sum + booking.partySize, 0);
   const nextStatus: BookingStatus = occupied + input.partySize > event.capacity ? 'waitlist' : 'confirmed';
   const advanceAmount = percent15(event.ticketPrice * input.partySize);
+  const bookingId = `BK-${randomUUID().slice(0, 8).toUpperCase()}`;
 
   const booking: Booking = {
     id: randomUUID(),
+    bookingId,
     venueId: input.venueId,
     eventId: input.eventId,
     guestName: input.guestName,

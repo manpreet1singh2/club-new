@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { bookings as seedBookings, events as seedEvents, inquiries as seedInquiries, venues as seedVenues } from './mock-data';
-import type { AutomationEvent, Booking, BookingStatus, DashboardMetrics, Event, Inquiry, PaymentStatus, TransportSchedule, TransportStatus, TransportType, Venue, WhatsAppAutomation, WhatsAppTriggerType } from './types';
+import type { AutomationEvent, BillingRecord, BillingSummary, Booking, BookingStatus, DashboardMetrics, Event, Inquiry, PaymentStatus, TransportSchedule, TransportStatus, TransportType, Venue, WhatsAppAutomation, WhatsAppTriggerType } from './types';
 import { pool } from './db';
 
 const globalForClub = globalThis as unknown as {
@@ -17,6 +17,45 @@ const globalForClub = globalThis as unknown as {
 
 function percent15(value: number) {
   return Math.ceil(value * 0.15);
+}
+
+function transportChargeFor(type?: TransportType) {
+  switch (type) {
+    case 'cab': return 350;
+    case 'bike': return 150;
+    case 'van': return 650;
+    case 'bus': return 1200;
+    default: return 0;
+  }
+}
+
+function buildBillingRecord(booking: Booking, event?: Event, venue?: Venue): BillingRecord {
+  const baseAmount = booking.status === 'cancelled' ? 0 : (event ? event.ticketPrice * booking.partySize : booking.advanceAmount ?? 0);
+  const serviceCharge = baseAmount > 0 ? Math.ceil(baseAmount * 0.1) : 0;
+  const transportCharge = booking.status === 'cancelled' ? 0 : transportChargeFor(booking.transportType);
+  const taxAmount = baseAmount + serviceCharge + transportCharge > 0 ? Math.ceil((baseAmount + serviceCharge + transportCharge) * 0.05) : 0;
+  const totalDue = baseAmount + serviceCharge + transportCharge + taxAmount;
+  const paidAmount = booking.paidAmount ?? 0;
+  const outstandingAmount = Math.max(0, totalDue - paidAmount);
+  const status = totalDue === 0 ? 'settled' : outstandingAmount === 0 ? 'settled' : paidAmount > 0 ? 'partial' : 'open';
+
+  return {
+    bookingId: booking.id,
+    guestName: booking.guestName,
+    venueName: venue?.name ?? booking.venueId,
+    eventTitle: event?.title ?? booking.eventId,
+    baseAmount,
+    serviceCharge,
+    transportCharge,
+    taxAmount,
+    totalDue,
+    paidAmount,
+    outstandingAmount,
+    paymentStatus: booking.paymentStatus ?? (outstandingAmount > 0 ? 'pending' : 'paid'),
+    status,
+    transportType: booking.transportType ?? 'none',
+    createdAt: booking.createdAt
+  };
 }
 
 const memory = globalForClub.clubStore ?? {
@@ -258,6 +297,15 @@ export async function createInquiry(input: Omit<Inquiry, 'id' | 'createdAt'>) {
   return inquiry;
 }
 
+export async function listInquiries(): Promise<Inquiry[]> {
+  if (!pool) {
+    return [...memory.inquiries];
+  }
+
+  const result = await pool.query('SELECT * FROM inquiries ORDER BY created_at DESC');
+  return result.rows as Inquiry[];
+}
+
 export async function getDashboardMetrics(): Promise<DashboardMetrics> {
   const venues = await listVenues();
   const events = await listEvents();
@@ -305,6 +353,48 @@ export async function getTopBookedEvents(): Promise<Array<{ event: Event; bookin
 
 export async function listTransportSchedules(): Promise<TransportSchedule[]> {
   return memory.schedules;
+}
+
+export async function listBillingRecords(): Promise<BillingRecord[]> {
+  const bookings = await listBookings({ status: 'all', page: 1, pageSize: 1000 });
+  const events = await listEvents();
+  const venues = await listVenues();
+
+  return bookings.items
+    .map((booking) => buildBillingRecord(booking, events.find((event) => event.id === booking.eventId), venues.find((venue) => venue.id === booking.venueId)))
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+}
+
+export async function getBillingSummary(): Promise<BillingSummary> {
+  const records = await listBillingRecords();
+  const totalDue = records.reduce((sum, record) => sum + record.totalDue, 0);
+  const paidAmount = records.reduce((sum, record) => sum + record.paidAmount, 0);
+  const outstandingAmount = records.reduce((sum, record) => sum + record.outstandingAmount, 0);
+  const openInvoices = records.filter((record) => record.status !== 'settled').length;
+  const settledInvoices = records.length - openInvoices;
+
+  return {
+    totalDue,
+    paidAmount,
+    outstandingAmount,
+    openInvoices,
+    settledInvoices,
+    averageInvoice: records.length ? Math.round(totalDue / records.length) : 0
+  };
+}
+
+export async function updateTransportScheduleStatus(input: { scheduleId: string; status: TransportStatus }) {
+  const schedule = memory.schedules.find((item) => item.id === input.scheduleId);
+  if (!schedule) throw new Error('Transport schedule not found');
+  schedule.status = input.status;
+
+  const booking = await getBookingById(schedule.bookingId);
+  if (booking) {
+    booking.transportStatus = input.status;
+    if (input.status === 'cancelled') booking.transportType = 'none';
+  }
+
+  return { schedule, booking };
 }
 
 export async function listAutomations(): Promise<WhatsAppAutomation[]> {

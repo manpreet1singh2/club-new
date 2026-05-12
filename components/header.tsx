@@ -4,7 +4,9 @@ const navItems = [
   { href: '/venues', label: 'Venues' },
   { href: '/events', label: 'Events' },
   { href: '/bookings', label: 'Bookings' },
-  { href: '/payments', label: 'Payments' },
+  { href: '/billing', label: 'Billing' },
+  { href: '/crm', label: 'CRM' },
+  { href: '/qr-tickets', label: 'QR Tickets' },
   { href: '/transport', label: 'Transport' },
   { href: '/admin', label: 'Admin' }
 ];

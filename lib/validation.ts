@@ -47,3 +47,8 @@ export const transportSchema = z.object({
   driverName: z.string().optional().default(''),
   notes: z.string().optional().default('')
 });
+
+export const transportStatusSchema = z.object({
+  scheduleId: z.string().min(1),
+  status: z.enum(['scheduled', 'assigned', 'completed', 'cancelled'])
+});

@@ -31,6 +31,7 @@ export type Event = {
 
 export type BookingStatus = 'pending' | 'confirmed' | 'waitlist' | 'cancelled';
 export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded';
+export type BillingStatus = 'open' | 'partial' | 'settled';
 export type TransportType = 'none' | 'cab' | 'bike' | 'van' | 'bus';
 export type TransportStatus = 'unscheduled' | 'scheduled' | 'assigned' | 'completed' | 'cancelled';
 export type WhatsAppTriggerType = 'booking_confirmed' | 'advance_paid' | 'transport_assigned';
@@ -79,6 +80,33 @@ export type TransportSchedule = {
   driverName?: string;
   notes?: string;
   createdAt: string;
+};
+
+export type BillingRecord = {
+  bookingId: string;
+  guestName: string;
+  venueName: string;
+  eventTitle: string;
+  baseAmount: number;
+  serviceCharge: number;
+  transportCharge: number;
+  taxAmount: number;
+  totalDue: number;
+  paidAmount: number;
+  outstandingAmount: number;
+  paymentStatus: PaymentStatus;
+  status: BillingStatus;
+  transportType: TransportType;
+  createdAt: string;
+};
+
+export type BillingSummary = {
+  totalDue: number;
+  paidAmount: number;
+  outstandingAmount: number;
+  openInvoices: number;
+  settledInvoices: number;
+  averageInvoice: number;
 };
 
 export type AutomationEvent = {

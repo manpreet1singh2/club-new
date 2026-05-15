@@ -1,23 +1,17 @@
-import './globals.css';
 import type { Metadata } from 'next';
+import './globals.css';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 
 export const metadata: Metadata = {
   title: 'Nightclub OS',
-  description: 'Nightclub booking platform for venues, events, tables, and guest-list operations.',
-  metadataBase: new URL('https://nightclub-os.example'),
-  openGraph: {
-    title: 'Nightclub OS',
-    description: 'Venue discovery, booking management, event operations, and admin dashboards.',
-    type: 'website'
-  }
+  description: 'Production nightclub booking platform with venue discovery, bookings, CRM, QR tickets, billing, and transport operations.'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="min-h-screen bg-night-950 text-slate-100 antialiased">
         <Header />
         <main>{children}</main>
         <Footer />

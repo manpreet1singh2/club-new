@@ -1,6 +1,8 @@
 import { FileText, Play, ShieldCheck, Sparkles, Zap } from 'lucide-react';
 
-const transcriptParagraphs: string[] = [];
+const transcriptParagraphs: string[] = [
+  "Hey Jess, thanks for calling Romano's Italian Kitchen... see you soon."
+];
 
 export function CertusDemoSection() {
   return (

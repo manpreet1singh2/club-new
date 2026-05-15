@@ -4,6 +4,7 @@ import { EventCard } from '@/components/event-card';
 import { MetricsGrid } from '@/components/metrics-grid';
 import { VenueCard } from '@/components/venue-card';
 import { getDashboardMetrics, getTopBookedEvents, listEvents, listVenues } from '@/lib/store';
+import { CertusDemoSection } from '@/components/certus-demo-section';
 
 const coreModules = [
   {
@@ -89,6 +90,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <CertusDemoSection />
 
       <section className="space-y-6">
         <div>

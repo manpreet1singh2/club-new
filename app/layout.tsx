@@ -4,12 +4,12 @@ import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 
 export const metadata: Metadata = {
-  title: 'Nightclub OS',
-  description: 'Nightclub booking platform for venues, events, tables, and guest-list operations.',
-  metadataBase: new URL('https://nightclub-os.example'),
+  title: 'The Night Crew',
+  description: 'We build AI employees for businesses that automate sales, support, operations, and lead generation.',
+  metadataBase: new URL('https://thenightcrew.club'),
   openGraph: {
-    title: 'Nightclub OS',
-    description: 'Venue discovery, booking management, event operations, and admin dashboards.',
+    title: 'The Night Crew',
+    description: 'AI employees for sales, support, operations, and lead generation.',
     type: 'website'
   }
 };

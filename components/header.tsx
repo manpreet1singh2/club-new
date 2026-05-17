@@ -15,7 +15,7 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
         <Link href="/" className="flex items-center gap-3 font-semibold tracking-wide text-white">
           <span className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-velvet-500 to-night-500 shadow-glow">N</span>
-          Nightclub OS
+          The Night Crew
         </Link>
         <nav className="hidden items-center gap-5 text-sm text-slate-300 lg:flex">
           {navItems.map((item) => (
@@ -25,7 +25,7 @@ export function Header() {
           ))}
         </nav>
         <Link href="/#book" className="btn-primary hidden sm:inline-flex">
-          Book a table
+          Talk to us
         </Link>
       </div>
     </header>

@@ -3,7 +3,7 @@ import { BookingForm } from '@/components/booking-form';
 import { EventCard } from '@/components/event-card';
 import { MetricsGrid } from '@/components/metrics-grid';
 import { VenueCard } from '@/components/venue-card';
-import { getDashboardMetrics, getTopBookedEvents, listEvents, listVenues } from '@/lib/store';
+import { getDashboardMetrics, getTopBookedEvents, listEvents, listSolutions } from '@/lib/store';
 
 export default async function HomePage() {
   const [venues, events, metrics, topBooked] = await Promise.all([
@@ -21,28 +21,28 @@ export default async function HomePage() {
       <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div className="space-y-8">
           <div className="flex flex-wrap gap-3">
-            <span className="chip border-velvet-400/30 bg-velvet-500/10 text-velvet-200">1M user-ready architecture</span>
-            <span className="chip">Realtime booking flow</span>
-            <span className="chip">Admin dashboard</span>
+            <span className="chip border-velvet-400/30 bg-velvet-500/10 text-velvet-200">AI employee systems</span>
+            <span className="chip">Sales automation</span>
+            <span className="chip">Lead generation</span>
           </div>
           <div className="space-y-5">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-velvet-200">Nightclub booking platform</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-velvet-200">The Night Crew</p>
             <h1 className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-tight text-white md:text-7xl">
-              Run table bookings, guest lists, and premium nightlife operations in one place.
+              We build AI employees for businesses that automate sales, support, operations, and lead generation.
             </h1>
             <p className="max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
-              Discover venues, manage event capacity, capture booking requests, and monitor live performance from a production-style control plane built for scale.
+              Deploy AI employees that qualify leads, support customers, streamline operations, and keep your pipeline moving 24/7.
             </p>
           </div>
           <div className="flex flex-wrap gap-4">
-            <Link href="#book" className="btn-primary">Reserve now</Link>
-            <Link href="/dashboard" className="btn-secondary">Open dashboard</Link>
+            <Link href="#book" className="btn-primary">Talk to us</Link>
+            <Link href="/dashboard" className="btn-secondary">View dashboard</Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
-              'Validated APIs with graceful waitlist handling',
-              'Pagination-ready booking and venue views',
-              'Optional Postgres support for persistence'
+              'Automated lead capture and routing',
+              'Sales, support, and operations coverage',
+              'Built to plug into your stack'
             ].map((item) => (
               <div key={item} className="panel-soft p-4 text-sm text-slate-300">
                 {item}
@@ -74,10 +74,10 @@ export default async function HomePage() {
 
       <section className="space-y-6">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Operations</p>
-          <h2 className="section-title mt-2">Built for the full venue lifecycle</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Capabilities</p>
+          <h2 className="section-title mt-2">Built for the full business lifecycle</h2>
           <p className="section-copy mt-4">
-            Every major action is handled through typed validation, API routes, and consistent server-rendered views so the platform stays fast and predictable as traffic grows.
+            Every workflow is designed to be reliable, measurable, and easy to scale as your team grows.
           </p>
         </div>
         <MetricsGrid metrics={metrics} />
@@ -85,8 +85,8 @@ export default async function HomePage() {
 
       <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]" id="book">
         <div className="space-y-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Featured events</p>
-          <h2 className="section-title">Peak-night inventory</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Featured workflows</p>
+          <h2 className="section-title">High-value automation paths</h2>
           <div className="space-y-4">
             {featuredEvents.map((event) => (
               <EventCard key={event.id} event={event} venue={venues.find((venue) => venue.id === event.venueId)} />
@@ -94,8 +94,8 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="space-y-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Quick booking</p>
-          <h2 className="section-title">Reserve tables without friction</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Quick intro</p>
+          <h2 className="section-title">Start with a short brief and we will map the right AI employees for your business.</h2>
           <BookingForm venues={venues} events={events} />
         </div>
       </section>
@@ -103,7 +103,7 @@ export default async function HomePage() {
       <section className="space-y-6">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Venues</p>
-          <h2 className="section-title mt-2">Curated nightlife inventory</h2>
+          <h2 className="section-title mt-2">Core areas we automate</h2>
         </div>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {featuredVenues.map((venue) => (
@@ -114,8 +114,8 @@ export default async function HomePage() {
 
       <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Demand snapshot</p>
-          <h2 className="section-title">Most active bookings</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Pipeline snapshot</p>
+          <h2 className="section-title">Most active opportunities</h2>
           <div className="space-y-4">
             {topBooked.slice(0, 3).map(({ event, filled }) => (
               <div key={event.id} className="panel-soft p-5">
@@ -134,13 +134,13 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="panel-soft p-6">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Platform guarantees</p>
-          <h2 className="section-title mt-2">Operational quality checklist</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-velvet-200">Delivery standards</p>
+          <h2 className="section-title mt-2">Execution quality checklist</h2>
           <ul className="mt-6 space-y-4 text-sm leading-7 text-slate-300">
-            <li>• All booking, venue, event, and inquiry actions are routed through typed API endpoints.</li>
-            <li>• Waitlist logic automatically applies when an event reaches capacity.</li>
-            <li>• Booking lists, venue lists, and event views are filterable and pagination-ready.</li>
-            <li>• Postgres is supported through DATABASE_URL without changing the UI.</li>
+            <li>• All sales, support, operations, and lead-gen actions are routed through typed workflows.</li>
+            <li>• Handoffs and escalation paths are handled automatically when a workflow needs a human.</li>
+            <li>• Lead lists, task queues, and workflow views are filterable and easy to manage.</li>
+            <li>• Postgres or your preferred stack can be connected without redesigning the experience.</li>
             <li>• Forms include inline success and error states for reliable user feedback.</li>
           </ul>
         </div>

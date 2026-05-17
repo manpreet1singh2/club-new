@@ -3,7 +3,7 @@ import { BookingForm } from '@/components/booking-form';
 import { EventCard } from '@/components/event-card';
 import { MetricsGrid } from '@/components/metrics-grid';
 import { VenueCard } from '@/components/venue-card';
-import { getDashboardMetrics, getTopBookedEvents, listEvents, listSolutions } from '@/lib/store';
+import { getDashboardMetrics, getTopBookedEvents, listEvents, listVenues } from '@/lib/store';
 
 export default async function HomePage() {
   const [venues, events, metrics, topBooked] = await Promise.all([

@@ -19,6 +19,20 @@ export default function ClubsPage() {
   const [priceRange, setPriceRange] = useState([0])
   const [filtersOpen, setFiltersOpen] = useState(false)
 
+  const filteredClubs = allClubs.filter((club) => {
+    const normalizedQuery = searchQuery.trim().toLowerCase()
+
+    if (!normalizedQuery) {
+      return true
+    }
+
+    return (
+      club.name.toLowerCase().includes(normalizedQuery) ||
+      club.location.toLowerCase().includes(normalizedQuery) ||
+      club.tags.some((tag) => tag.toLowerCase().includes(normalizedQuery))
+    )
+  })
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -213,7 +227,7 @@ export default function ClubsPage() {
                 </Collapsible>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {allClubs.map((club) => (
+                  {filteredClubs.map((club) => (
                     <Link href={`/clubs/${club.id}`} key={club.id}>
                       <Card className="overflow-hidden transition-all hover:shadow-lg h-full">
                         <img

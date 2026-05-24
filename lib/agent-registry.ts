@@ -1,4 +1,4 @@
-export type Department = 'Sales' | 'Content' | 'Customer Support' | 'Operations' | 'Executive';
+export type Department = 'Sales' | 'Marketing' | 'Content' | 'Customer Support' | 'Operations' | 'Executive';
 
 export type AgentDefinition = {
   id: string;
@@ -12,12 +12,20 @@ export type AgentDefinition = {
   launchStatus: 'ready';
 };
 
-export const DEPARTMENTS: Department[] = ['Sales', 'Content', 'Customer Support', 'Operations', 'Executive'];
+export const DEPARTMENTS: Department[] = ['Sales', 'Marketing', 'Content', 'Customer Support', 'Operations', 'Executive'];
 
 export const DEPARTMENT_TOOL_ACCESS: Record<Department, string[]> = {
   "Sales": [
     "github",
     "notion",
+    "gmail",
+    "calendar",
+    "sheets"
+  ],
+  "Marketing": [
+    "github",
+    "notion",
+    "canva",
     "gmail",
     "calendar",
     "sheets"
@@ -61,6 +69,18 @@ export const DEPARTMENT_KEYWORDS: Record<Department, string[]> = {
     "account",
     "close",
     "outbound"
+  ],
+  "Marketing": [
+    "marketing",
+    "performance",
+    "campaign",
+    "ads",
+    "paid",
+    "media",
+    "conversion",
+    "roi",
+    "roas",
+    "attribution"
   ],
   "Content": [
     "content",
@@ -252,6 +272,17 @@ export const AGENT_DEFINITIONS: AgentDefinition[] = [
     tags: ["presales","government","bids"],
     toolAccess: ["github","notion","gmail","calendar","sheets"],
     memoryScope: "Sales/government-digital-presales-consultant",
+    launchStatus: 'ready'
+  },
+  {
+    id: "marketing-performance-marketing-agent",
+    name: "Performance Marketing Agent",
+    department: "Marketing",
+    sourcePath: "marketing/marketing-performance-marketing-agent.md",
+    summary: "Paid acquisition, campaign optimization, ROAS tracking, and conversion growth.",
+    tags: ["performance", "paid media", "roas", "conversion", "campaigns"],
+    toolAccess: ["github", "notion", "canva", "gmail", "calendar", "sheets"],
+    memoryScope: "Marketing/marketing-performance-marketing-agent",
     launchStatus: 'ready'
   },
   {

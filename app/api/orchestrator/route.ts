@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   }
 
   const requestedTools = Array.isArray(body.requestedTools)
-    ? body.requestedTools.filter((tool): tool is string => typeof tool === 'string')
+    ? body.requestedTools.filter((tool: unknown): tool is string => typeof tool === 'string')
     : [];
 
   return NextResponse.json(routeTask({

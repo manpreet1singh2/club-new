@@ -129,6 +129,22 @@ export type WhatsAppAutomation = {
   lastFiredAt?: string;
 };
 
+export type LegacyClub = {
+  id: string;
+  name: string;
+  location: string;
+};
+
+export type LegacyPackage = {
+  id: string;
+  clubId: string;
+  name: string;
+  description: string;
+  price: number;
+  includesDrinks: boolean;
+  includesTransport: boolean;
+};
+
 export type DashboardMetrics = {
   totalVenues: number;
   activeEvents: number;

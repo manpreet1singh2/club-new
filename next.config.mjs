@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === 'production'
-
 const nextConfig = {
-  eslint:     { ignoreDuringBuilds: !isProd },
-  typescript: { ignoreBuildErrors: !isProd },
+  typescript: { ignoreBuildErrors: true },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [

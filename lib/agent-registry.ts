@@ -176,6 +176,17 @@ export const AGENT_DEFINITIONS: AgentDefinition[] = [
     launchStatus: 'ready'
   },
   {
+    id: "sales-adobe-lead-qualification",
+    name: "Adobe Lead Qualification Agent",
+    department: "Sales",
+    sourcePath: "sales/sales-adobe-lead-qualification.md",
+    summary: "Qualifies Adobe leads, captures buying signals, and routes prospects to the right sales motion.",
+    tags: ["adobe", "lead qualification", "discovery", "scoring"],
+    toolAccess: ["github", "notion", "gmail", "calendar", "sheets"],
+    memoryScope: "Sales/sales-adobe-lead-qualification",
+    launchStatus: 'ready'
+  },
+  {
     id: "sales-engineer",
     name: "Sales Engineer",
     department: "Sales",

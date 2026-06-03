@@ -6,6 +6,7 @@ const navItems = [
   { href: '/bookings', label: 'Bookings' },
   { href: '/billing', label: 'Billing' },
   { href: '/transport', label: 'Transport' },
+  { href: '/agents', label: '🌙 Agents' },
   { href: '/admin', label: 'Admin' }
 ];
 

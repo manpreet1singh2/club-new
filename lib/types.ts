@@ -34,7 +34,7 @@ export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded';
 export type BillingStatus = 'open' | 'partial' | 'settled';
 export type TransportType = 'none' | 'cab' | 'bike' | 'van' | 'bus';
 export type TransportStatus = 'unscheduled' | 'scheduled' | 'assigned' | 'completed' | 'cancelled';
-export type WhatsAppTriggerType = 'booking_confirmed' | 'advance_paid' | 'transport_assigned';
+export type WhatsAppTriggerType = 'booking_confirmed' | 'advance_paid' | 'transport_assigned' | 'escalation_required';
 
 export type Booking = {
   id: string;

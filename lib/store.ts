@@ -92,6 +92,14 @@ const memory = globalForClub.clubStore ?? {
       enabled: true,
       template: 'Your ride has been scheduled. Driver details will be shared automatically.',
       deliveryChannel: 'whatsapp'
+    },
+    {
+      id: 'wa-4',
+      trigger: 'escalation_required',
+      name: 'Human handoff',
+      enabled: true,
+      template: 'A human concierge has been notified and will assist you shortly.',
+      deliveryChannel: 'whatsapp'
     }
   ],
   automationEvents: [] as AutomationEvent[]
@@ -284,6 +292,15 @@ export async function scheduleTransport(input: { bookingId: string; pickupLocati
   memory.schedules.unshift(schedule);
   if (booking.whatsappOptIn) pushAutomation('transport_assigned', booking.id, 'transport_assigned', `Transport assigned for ${booking.guestName}`);
   return { schedule, booking };
+}
+
+export async function requestEscalation(bookingId: string) {
+  const booking = await getBookingById(bookingId);
+  if (!booking) throw new Error('Booking not found');
+  if (booking.whatsappOptIn) {
+    pushAutomation('escalation_required', booking.id, 'escalation_required', `Human concierge requested for ${booking.guestName}`);
+  }
+  return { booking };
 }
 
 export async function createInquiry(input: Omit<Inquiry, 'id' | 'createdAt'>) {

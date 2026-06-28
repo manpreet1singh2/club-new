@@ -14,7 +14,9 @@ const items: MetricItem[] = [
   { key: 'waitlistBookings', label: 'Waitlist' },
   { key: 'avgOccupancy', label: 'Avg occupancy', suffix: '%' },
   { key: 'conversionRate', label: 'Conversion rate', suffix: '%' },
-  { key: 'revenueProjection', label: 'Revenue projection', prefix: '₹' }
+  { key: 'revenueProjection', label: 'Revenue projection', prefix: '₹' },
+  { key: 'transportScheduled', label: 'Transport tasks' },
+  { key: 'automationCount', label: 'Active automations' }
 ];
 
 export function MetricsGrid({ metrics }: { metrics: DashboardMetrics }) {

@@ -414,3 +414,11 @@ export async function listAutomations(): Promise<WhatsAppAutomation[]> {
 export async function listAutomationEvents(): Promise<AutomationEvent[]> {
   return memory.automationEvents;
 }
+
+export async function cancelBooking(id: string) {
+  const booking = await getBookingById(id);
+  if (!booking) throw new Error('Booking not found');
+  booking.status = 'cancelled';
+  booking.transportStatus = 'cancelled';
+  return { booking };
+}

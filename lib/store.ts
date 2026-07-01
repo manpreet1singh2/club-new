@@ -12,7 +12,19 @@ const globalForClub = globalThis as unknown as {
     schedules: TransportSchedule[];
     automations: WhatsAppAutomation[];
     automationEvents: AutomationEvent[];
+    reviews: GuestReview[];
   };
+};
+
+export type GuestReview = {
+  id: string;
+  venueId: string;
+  guestName: string;
+  rating: number;
+  comment: string;
+  source: 'Google' | 'Instagram' | 'Email' | 'Web';
+  status: 'needs-follow-up' | 'scheduled' | 'responded';
+  createdAt: string;
 };
 
 function percent15(value: number) {
@@ -110,7 +122,39 @@ const memory = globalForClub.clubStore ?? {
       deliveryChannel: 'whatsapp'
     }
   ],
-  automationEvents: [] as AutomationEvent[]
+  automationEvents: [] as AutomationEvent[],
+  reviews: [
+    {
+      id: 'rev-1',
+      venueId: 'venue-orbit',
+      guestName: 'Aarav Mehta',
+      rating: 5,
+      source: 'Google',
+      status: 'responded',
+      createdAt: '2026-06-25T14:30:00Z',
+      comment: 'Fast guest list confirmation and smooth table handoff. The team kept everything on schedule even after our headcount changed.'
+    },
+    {
+      id: 'rev-2',
+      venueId: 'venue-arcade',
+      guestName: 'Priya Dutta',
+      rating: 5,
+      source: 'Instagram',
+      status: 'needs-follow-up',
+      createdAt: '2026-06-26T09:15:00Z',
+      comment: 'Loved the beach setup and the bottle service pacing. Would book again, but wanted a slightly earlier transport slot next time.'
+    },
+    {
+      id: 'rev-3',
+      venueId: 'venue-luxe',
+      guestName: 'Rohit Saini',
+      rating: 4,
+      source: 'Email',
+      status: 'scheduled',
+      createdAt: '2026-06-26T18:45:00Z',
+      comment: 'The anniversary package was polished and the host communication was excellent. A clearer menu preview before arrival would help.'
+    }
+  ]
 };
 
 globalForClub.clubStore = memory;
@@ -439,6 +483,20 @@ export async function createEvent(input: Omit<Event, 'id'>) {
     if (event.featured) pushAutomation('event_notification', 'event_notification', `New high-value event: ${event.title}`, undefined, event.id);
     return event;
   }
-  // SQL implementation omitted for brevity as per previous pattern
   return event;
+}
+
+export async function listReviews(filters?: { venueId?: string; status?: GuestReview['status'] | 'all' }): Promise<GuestReview[]> {
+  return memory.reviews.filter((review) => {
+    if (filters?.venueId && filters.venueId !== 'all' && review.venueId !== filters.venueId) return false;
+    if (filters?.status && filters.status !== 'all' && review.status !== filters.status) return false;
+    return true;
+  });
+}
+
+export async function updateReviewStatus(id: string, status: GuestReview['status']) {
+  const review = memory.reviews.find((r) => r.id === id);
+  if (!review) throw new Error('Review not found');
+  review.status = status;
+  return review;
 }

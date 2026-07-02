@@ -278,7 +278,7 @@ export const AGENT_DEFINITIONS: AgentDefinition[] = [
     id: "government-digital-presales-consultant",
     name: "Government Digital Presales Consultant",
     department: "Sales",
-    sourcePath: "specialized/government-digital-presales-consultant.md",
+    sourcePath: "sales/government-digital-presales-consultant.md",
     summary: "China ToG presales and digital transformation proposals.",
     tags: ["presales","government","bids"],
     toolAccess: ["github","notion","gmail","calendar","sheets"],
@@ -514,6 +514,17 @@ export const AGENT_DEFINITIONS: AgentDefinition[] = [
     tags: ["reddit","community","engagement"],
     toolAccess: ["github","notion","canva","gmail"],
     memoryScope: "Content/marketing-reddit-community-builder",
+    launchStatus: 'ready'
+  },
+  {
+    id: "support-customer-support-agent",
+    name: "Customer Support Agent",
+    department: "Customer Support",
+    sourcePath: "support/support-customer-agent.md",
+    summary: "Handles common inquiries, booking issues, and membership questions.",
+    tags: ["support", "customer", "inquiries", "booking"],
+    toolAccess: ["gmail", "notion", "calendar", "sheets"],
+    memoryScope: "Customer Support/support-customer-agent",
     launchStatus: 'ready'
   },
   {
